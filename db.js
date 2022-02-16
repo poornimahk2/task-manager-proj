@@ -3,7 +3,7 @@ const ObjectID = require('mongodb').ObjectID;
 // name of our database
 const dbname = "crud_mongodb";
 const url = "mongodb://127.0.0.1:27017";
-const mongoOptions = {useNewUrlParser : true, useUnifiedTopology: true ,useFindAndModify: false};
+const mongoOptions = {useNewUrlParser : true, useUnifiedTopology: true };
 
 const state = {
     db : null
