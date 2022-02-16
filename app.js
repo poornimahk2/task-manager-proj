@@ -4,6 +4,7 @@ const path = require('path');
 const Joi = require('joi');
 
 const db = require("./db");
+const alert = require('alert');
 const collection = "todo";
 const app = express();
 const schema = Joi.object().keys({
@@ -82,10 +83,13 @@ app.delete('/:id', (req, res) => {
     db.getDB().collection(collection).findOneAndDelete({
         _id: db.getPrimaryKey(todoID)
     }, (err, result) => {
-        if (err)
-            console.log(err);
-        else {
-            res.json(result);
+        if (err){
+            const error = new Error("Invalid Input");
+            error.status = 400;
+            next(error);
+        }else {
+             res.json(result);
+            
         }
 
     });
