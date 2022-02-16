@@ -106,7 +106,7 @@ db.connect((err) => {
         process.exit(1);
     } else {
         app.listen(3000, () => {
-            console.log('Connected to database.');
+            console.log('Connected to the database.');
         });
     }
 });
