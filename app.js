@@ -6,24 +6,17 @@ const Joi = require('joi');
 const db = require("./db");
 const collection = "todo";
 const app = express();
-
-// schema used for data validation for our todo document
 const schema = Joi.object().keys({
     todo : Joi.string().required()
 });
 
-// parses json data sent to us by the user 
 app.use(bodyParser.json());
-
-// serve static html file to user
 app.get('/',(req,res)=>{
     res.sendFile(path.join(__dirname,'index.html'));
 });
 
 // read
 app.get('/getTodos',(req,res)=>{
-    // get all Todo documents within our todo collection
-    // send back to user as json
     db.getDB().collection(collection).find({}).toArray((err,documents)=>{
         if(err)
             console.log(err);
@@ -35,11 +28,8 @@ app.get('/getTodos',(req,res)=>{
 
 // update
 app.put('/:id',(req,res)=>{
-    // Primary Key of Todo Document we wish to update
     const todoID = req.params.id;
-    // Document used to update
     const userInput = req.body;
-    // Find Document By ID and Update
     db.getDB().collection(collection).findOneAndUpdate({_id : db.getPrimaryKey(todoID)},{$set : {todo : userInput.todo}},{returnOriginal : false},(err,result)=>{
         if(err)
             console.log(err);
@@ -77,9 +67,7 @@ app.post('/',(req,res,next)=>{
 
 //delete
 app.delete('/:id',(req,res)=>{
-    // Primary Key of Todo Document
     const todoID = req.params.id;
-    // Find Document By ID and delete document from record
     db.getDB().collection(collection).findOneAndDelete({_id : db.getPrimaryKey(todoID)},(err,result)=>{
         if(err)
             console.log(err);
@@ -88,8 +76,6 @@ app.delete('/:id',(req,res)=>{
     });
 });
 
-// Middleware for handling Error
-// Sends Error Response Back to User
 app.use((err,req,res,next)=>{
     res.status(err.status).json({
         error : {
