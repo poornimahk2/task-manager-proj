@@ -5,11 +5,14 @@ const Joi = require('joi');
 
 const db = require("./db");
 const alert = require('alert');
+
+
 const collection = "todo";
 const app = express();
 const schema = Joi.object().keys({
     todo: Joi.string().required()
 });
+
 
 app.use(bodyParser.json());
 app.get('/', (req, res) => {
